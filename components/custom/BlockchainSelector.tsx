@@ -23,11 +23,11 @@ const BlockchainSelector = ({
     <Button
       onClick={() => onChange(blockchain)}
       className={clsx(
-        "group relative overflow-hidden rounded-full px-6 py-2 text-white font-semibold",
+        "group relative overflow-hidden rounded-full px-8 py-4 text-white font-semibold",
         blockchain === type ? BLOCKCHAIN_GRADIENTS[blockchain] : "bg-slate-800"
       )}
     >
-      <span className="relative z-10">{blockchain}</span>
+      <span className="relative z-10 text-lg">{blockchain}</span>
       <span
         className={`absolute top-0 left-0 h-full w-0 ${BLOCKCHAIN_GRADIENTS[blockchain]} transition-all duration-200 ease-in group-hover:w-full`}
       />
