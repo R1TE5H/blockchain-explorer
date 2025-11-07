@@ -9,7 +9,7 @@ import {
 
 async function fetchXRPLData(
   address: string,
-  limit: number,
+  limit?: number,
   marker?: number
 ): Promise<XRPLApiResponse> {
   const params = new URLSearchParams({
@@ -35,7 +35,7 @@ async function fetchXRPLData(
 
 export function useXRPLAccount(
   account: string,
-  limit: number = 10,
+  limit?: number,
   marker?: number
 ) {
   const queryClient = useQueryClient();
@@ -44,7 +44,7 @@ export function useXRPLAccount(
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["xrpl-account", account, limit, marker],
     queryFn: () => fetchXRPLData(account, limit, marker),
-    enabled: !!account && !isCleared, // Disable when cleared
+    enabled: !!account && !isCleared,
     staleTime: 30000,
     refetchOnWindowFocus: false,
     retry: 3,

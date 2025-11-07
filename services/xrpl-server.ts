@@ -172,6 +172,6 @@ export async function disconnectServerClient() {
   }
 }
 
-export function formatBalance(balance: string) {
+export function formatXRPBalance(balance: string) {
   return Intl.NumberFormat("en-US").format(Number(balance) / 1000000);
 }

@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
 
     const address = searchParams.get("address");
-    const limit = parseInt(searchParams.get("limit") || "10");
+    const limit = parseInt(searchParams.get("limit") || "0");
     const marker = searchParams.get("marker")
       ? parseInt(searchParams.get("marker")!)
       : undefined;
