@@ -15,10 +15,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Disabling shallow clones is recommended for accurate SonarQube tracking
           fetch-depth: 0
 
       - name: SonarQube Cloud Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=R1TE5H
+            -Dsonar.projectKey=R1TE5H_blockchain-explorer
+            -Dsonar.sources=.
