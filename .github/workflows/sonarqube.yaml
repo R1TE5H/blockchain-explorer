@@ -13,16 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+#        SHA retrieved from https://github.com/actions/checkout/releases/
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
 
       - name: SonarQube Cloud Scan
-        uses: SonarSource/sonarqube-scan-action@v4
+#        SHA retrieved from https://github.com/sonarsource/sonarqube-scan-action/releases
+        uses: SonarSource/sonarqube-scan-action@d209202bc7d53ff1cc128f7f907dac145c9d6ae9
         env:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
         with:
           args: >
+#            Retrieved from https://sonarcloud.io/organizations/r1te5h/projects
             -Dsonar.organization=r1te5h
+#            Retrieved from https://sonarcloud.io/project/overview?id=R1TE5H_blockchain-explorer
             -Dsonar.projectKey=R1TE5H_blockchain-explorer
             -Dsonar.sources=.
