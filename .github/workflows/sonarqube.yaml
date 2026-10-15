@@ -23,6 +23,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=R1TE5H
+            -Dsonar.organization=r1te5h
             -Dsonar.projectKey=R1TE5H_blockchain-explorer
             -Dsonar.sources=.
