@@ -1,17 +1,32 @@
 "use client";
+"use no memo";
 
 import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
+  columnFilteringFeature,
+  ColumnVisibilityState,
+  columnVisibilityFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  filterFn_equals,
+  filterFn_includesString,
+  filterFn_inNumberRange,
+  filterFn_weakEquals,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
+  RowData,
+  rowPaginationFeature,
+  RowSelectionState,
+  rowSelectionFeature,
+  rowSortingFeature,
+  sortFn_alphanumeric,
+  sortFn_datetime,
+  sortFn_text,
   SortingState,
-  useReactTable,
-  VisibilityState,
+  tableFeatures,
+  useTable,
 } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
 
@@ -31,30 +46,55 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export function DataTable<TData>({
+// v9 only exposes APIs for registered features. The fns listed are the ones
+// 'auto' sorting/filtering can resolve to for the column value types we use.
+export const dataTableFeatures = tableFeatures({
+  columnFilteringFeature,
+  rowSortingFeature,
+  columnVisibilityFeature,
+  rowSelectionFeature,
+  rowPaginationFeature,
+  filteredRowModel: createFilteredRowModel(),
+  sortedRowModel: createSortedRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  filterFns: {
+    includesString: filterFn_includesString,
+    inNumberRange: filterFn_inNumberRange,
+    equals: filterFn_equals,
+    weakEquals: filterFn_weakEquals,
+  },
+  sortFns: {
+    alphanumeric: sortFn_alphanumeric,
+    text: sortFn_text,
+    datetime: sortFn_datetime,
+  },
+});
+
+export type DataTableFeatures = typeof dataTableFeatures;
+
+export function DataTable<TData extends RowData>({
   data,
   columns,
 }: {
   data: TData[];
-  columns: ColumnDef<TData>[];
+  columns: ColumnDef<DataTableFeatures, TData>[];
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    React.useState<ColumnVisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>(
+    {}
+  );
 
-  const table = useReactTable({
+  const table = useTable({
+    features: dataTableFeatures,
     data: data || [],
     columns: columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {

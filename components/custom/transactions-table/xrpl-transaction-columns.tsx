@@ -7,11 +7,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
+import type { DataTableFeatures } from "@/components/ui/data-table";
 import { formatXRPBalance } from "@/services/xrpl-server";
 
 export default function getXRPLTransactionsTableColumns(
   currentAccount?: string
-): ColumnDef<AccountTxTransaction<2>>[] {
+): ColumnDef<DataTableFeatures, AccountTxTransaction<2>>[] {
   function rippleTimeToDate(rippleTime: number): Date {
     const rippleEpoch = new Date("2000-01-01T00:00:00Z").getTime(); // Ripple epoch in ms
     const timestampMs = rippleEpoch + rippleTime * 1000; // Add ripple seconds converted to ms
